@@ -1,0 +1,27 @@
+{
+  "name": "save-websites-as-markdown",
+  "version": "1.0.0",
+  "description": "Save websites as markdown for (local) AI processing.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "playwright",
+    "markdown",
+    "crawler",
+    "AI",
+    "LLM"
+  ],
+  "author": "Tobias Hofmann",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "playwright": "^1.58.1",
+    "rehype-parse": "^9.0.1",
+    "rehype-remark": "^10.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-stringify": "^11.0.0",
+    "unified": "^11.0.5"
+  }
+}
