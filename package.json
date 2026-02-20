@@ -7,6 +7,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "homepage": "https://github.com/tobiashofmann/save-websites-as-markdown",
+  "bugs": {
+    "url": "https://github.com/tobiashofmann/save-websites-as-markdown/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tobiashofmann/save-websites-as-markdown"
+  },
   "keywords": [
     "playwright",
     "markdown",
