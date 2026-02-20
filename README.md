@@ -23,7 +23,7 @@ Install the dependencies. The script is using playwright and chrome. Get the lin
 ```sh
 npm i
 npx playwright install chromium
-node crawl.js "https://help.sap.com/docs/ABAP_PLATFORM_NEW/b5670aaaa2364a29935f40b16499972d/48ba073157b85295e10000000a42189b.html" "/ABAP_PLATFORM_NEW" "links.txt"
+node crawl.js "https://help.sap.com/docs/ABAP_PLATFORM_NEW/b5670aaaa2364a29935f40b16499972d/48ba073157b85295e10000000a42189b.html" "/docs/ABAP_PLATFORM_NEW" "links.txt"
 node save-page-md.js links.txt pages
 perl -0777 -pe 's/<!--.*?-->//gs; s/\n{3,}/\n\n/g' ./pages/*.md > content.md
 ```
@@ -146,7 +146,7 @@ div[role="navigation"] a[href]
 The ensure that the JavaScript has enough time to load the page timeouts are configured. In case the content takes longer as these timeouts, they can be adjusted.
 
 ```sh
-node crawl.js "https://help.sap.com/docs/ABAP_PLATFORM_NEW/b5670aaaa2364a29935f40b16499972d/48ba073157b85295e10000000a42189b.html" "/ABAP_PLATFORM_NEW" "links.txt"
+node crawl.js "https://help.sap.com/docs/ABAP_PLATFORM_NEW/b5670aaaa2364a29935f40b16499972d/48ba073157b85295e10000000a42189b.html" "/docs/ABAP_PLATFORM_NEW" "links.txt"
 ```
 
 Sample links are in folder [links](./links/).
@@ -160,7 +160,7 @@ Sample links are in folder [links](./links/).
 #### RAP Docu
 
 ```sh
-node crawl.js "https://help.sap.com/docs/ABAP_PLATFORM_NEW/fc4c71aa50014fd1b43721701471913d/289477a81eec4d4e84c0302fb6835035.html?locale=en-US" "/docs/ABAP_PLATFORM_NEW/fc4c71aa50014fd1b43721701471913d" "links.txt"
+node crawl.js "https://help.sap.com/docs/ABAP_PLATFORM_NEW/fc4c71aa50014fd1b43721701471913d/289477a81eec4d4e84c0302fb6835035.html?locale=en-US" "/docs/ABAP_PLATFORM_NEW/fc4c71aa50014fd1b43721701471913d" "links_rap.txt"
 ```
 
 #### ADT Docu
