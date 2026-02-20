@@ -1,4 +1,4 @@
-# Store websites as markdown
+# Save websites as markdown
 
 Retrieve links from a website. Crawl the links and store them as markdown. The markdown is cleaned and all sites are stored in one markdown file. This file can be used by an AI - local or cloud - as input for RAG.
 
