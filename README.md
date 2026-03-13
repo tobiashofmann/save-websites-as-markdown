@@ -326,18 +326,36 @@ perl -0777 -pe 's/<!--.*?-->//gs; s/\n{3,}/\n\n/g' *.md > content.md
 perl -0777 -i.bak -pe 's/&lt;!--.*?--&gt;//gs; s/\n{3,}/\n\n/g' *.md
 ```
 
-### Replace in-file, without backup
+<details>
+	<summary>
+	Windows alternative & further commands
+	</summary>
+
+		Clean up command for Windows, PowerShell:
+
+		```sh
+		Get-ChildItem -Recurse -File -Filter *.md |
+  ForEach-Object {
+    (Get-Content -Raw $_.FullName) -replace '<!---->', '' |
+      Set-Content -NoNewline $_.FullName
+  }
+```
+
+### Further command options
+
+#### Replace in-file, without backup
 
 ```sh
 perl -0777 -i -pe 's/&lt;!--.*?--&gt;//gs; s/\n{3,}/\n\n/g' *.md
 ```
 
-### Comments
+#### Comments
 
 ```sh
 perl -0777 -i -pe 's/<!--.*?-->//gs; s/\n{3,}/\n\n/g' *.md
 ```
 
+</details>
 
 ![web page content as clean md](./images/contentasmdclean.png)
 
