@@ -302,15 +302,42 @@ Good, but not good enough. The markdown needs to be cleaned.
 
 ## Step 5: Clean up the markdown
 
-Perl is a good tool for this. One blocker in the markdown is \<!-- and -->. This can be removed for each downloaded md file. The result is than added to the file content.md
+Perl is a good tool for this. One blocker in the markdown is \<!-- and -->. This can be removed for each downloaded md file. The result is than added to the file content.md. The perl script to replace the comments is:
 
 perl -0777 -pe 's/<!--.*?-->//gs; s/\n{3,}/\n\n/g' *.md
+
+To do an inplace subsitution of the HTML comments, run:
+
+```sh
+find . -type f -name "*.md" -print0 | xargs -0 sed -i '' 's/<!---->//g'
+```
+
+This will alter each individual md file and not concat the output to a central file content.md.
 
 ## Step 6: Combine all markdown files in one file.
 
 ```sh
 perl -0777 -pe 's/<!--.*?-->//gs; s/\n{3,}/\n\n/g' *.md > content.md
 ```
+
+### Replace in-file, with backup
+
+```sh
+perl -0777 -i.bak -pe 's/&lt;!--.*?--&gt;//gs; s/\n{3,}/\n\n/g' *.md
+```
+
+### Replace in-file, without backup
+
+```sh
+perl -0777 -i -pe 's/&lt;!--.*?--&gt;//gs; s/\n{3,}/\n\n/g' *.md
+```
+
+### Comments
+
+```sh
+perl -0777 -i -pe 's/<!--.*?-->//gs; s/\n{3,}/\n\n/g' *.md
+```
+
 
 ![web page content as clean md](./images/contentasmdclean.png)
 
