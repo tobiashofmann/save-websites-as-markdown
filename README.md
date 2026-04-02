@@ -324,7 +324,37 @@ node save-page-md.js links/links_rap.txt rap
 ##### SAPUI5 documentation
 
 ```sh
-node save-page-md.js links/links_sapui5.txt rsapui5p
+node save-page-md.js links/links_sapui5.txt sapui5
+```
+
+##### eCATT documentation
+
+```sh
+node save-page-md.js links/links_ecatt.txt ecatt
+```
+
+##### Data Dictionary documentation
+
+```sh
+node save-page-md.js links/links_ddic.txt ddic
+```
+
+##### Enhancement Framework documentation
+
+```sh
+node save-page-md.js links/links_enh.txt enh
+```
+
+##### ABAP Test and Analysis Tools documentation
+
+```sh
+node save-page-md.js links/links_abap_tat.txt abap_tat
+```
+
+##### ABAP Development documentation
+
+```sh
+node save-page-md.js links/links_abap_development.txt abap_development
 ```
 
 </details>
