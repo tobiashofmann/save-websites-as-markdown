@@ -14,6 +14,49 @@ import remarkGfm from "remark-gfm";
 const CONTENT_SELECTOR = "#page";
 const EXTRA_WAIT_MS = 2000; // <- wie gewünscht: 2 Sekunden
 
+// --- Extract language code from locale parameter (e.g., en-US -> en, de-DE -> de) ---
+function extractLanguageFromUrl(url) {
+  try {
+    const urlObj = new URL(url);
+    const locale = urlObj.searchParams.get("locale") || "en-US";
+    return locale.split("-")[0]; // Take language part before hyphen
+  } catch {
+    return "en"; // Fallback
+  }
+}
+
+// --- Extract product from URL path (e.g., ABAP_PLATFORM_NEW from the docs path) ---
+function extractProductFromUrl(url) {
+  try {
+    const urlObj = new URL(url);
+    const pathParts = urlObj.pathname.split("/").filter(Boolean);
+    // Usually in format: /docs/PRODUCT_NAME/some_guid/page_id.html
+    if (pathParts.length >= 2 && pathParts[0] === "docs") {
+      return pathParts[1]; // Return the product name
+    }
+    return "Unknown";
+  } catch {
+    return "Unknown";
+  }
+}
+
+// --- Generate YAML frontmatter ---
+function generateFrontmatter(url, title) {
+  const source = url;
+  const product = extractProductFromUrl(url);
+  const doc_set = "SAP Help";
+  const language = extractLanguageFromUrl(url);
+
+  return `---
+source: ${source}
+product: ${product}
+doc_set: ${doc_set}
+language: ${language}
+---
+
+`;
+}
+
 function usage() {
   console.log(`Usage:
   node save-page-md.mjs <url|urls.txt> [output_dir]
@@ -149,10 +192,14 @@ try {
 
       // Convert to Markdown
       const markdown = await htmlToMarkdown(html);
+      
+      // Generate frontmatter with metadata
+      const frontmatter = generateFrontmatter(url, title);
+      const markdownWithFrontmatter = frontmatter + markdown;
 
       // Write file (unique name)
       const filePath = await uniquePath(outDir, safeBase, ".md");
-      await fs.writeFile(filePath, markdown, "utf8");
+      await fs.writeFile(filePath, markdownWithFrontmatter, "utf8");
 
       ok += 1;
       console.log(`✅ [${ok + fail}/${urls.length}] ${url}`);
