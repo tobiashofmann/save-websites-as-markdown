@@ -165,6 +165,27 @@ if (!urls.length) {
 // Ensure output directory exists
 await fs.mkdir(outDir, { recursive: true });
 
+// Load and validate progress
+const progressFile = path.join(outDir, 'progress.json');
+let processedUrls = [];
+try {
+  const progressData = await fs.readFile(progressFile, 'utf8');
+  processedUrls = JSON.parse(progressData);
+  // Validate: all processedUrls must be in urls
+  const urlSet = new Set(urls);
+  const invalid = processedUrls.filter(u => !urlSet.has(u));
+  if (invalid.length > 0) {
+    console.error(`❌ Progress file contains URLs not in current input: ${invalid.join(', ')}`);
+    process.exit(1);
+  }
+} catch (err) {
+  // If file doesn't exist or invalid JSON, start fresh
+  processedUrls = [];
+}
+
+const remainingUrls = urls.filter(u => !processedUrls.includes(u));
+let totalProcessed = processedUrls.length;
+
 const browser = await chromium.launch();
 const page = await browser.newPage();
 
@@ -172,7 +193,7 @@ let ok = 0;
 let fail = 0;
 
 try {
-  for (const url of urls) {
+  for (const url of remainingUrls) {
     try {
       // Load page (JS-rendered)
       await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
@@ -202,7 +223,11 @@ try {
       await fs.writeFile(filePath, markdownWithFrontmatter, "utf8");
 
       ok += 1;
-      console.log(`✅ [${ok + fail}/${urls.length}] ${url}`);
+      totalProcessed += 1;
+      processedUrls.push(url);      
+      await fs.writeFile(progressFile, JSON.stringify(processedUrls, null, 2), "utf8");
+
+      console.log(`✅ [${totalProcessed}/${urls.length}] ${url}`);
       console.log(`   Title: ${title || "(no title)"}`);
       console.log(`   Saved: ${filePath}`);
     } catch (err) {
@@ -212,7 +237,7 @@ try {
     }
   }
 
-  console.log(`\nDone. ✅ OK: ${ok}  ❌ Failed: ${fail}  (Total: ${urls.length})`);
+  console.log(`\nDone. ✅ OK: ${ok}  ❌ Failed: ${fail}  (Total processed: ${totalProcessed}/${urls.length})`);
 } finally {
   await browser.close();
 }
