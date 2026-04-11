@@ -198,6 +198,37 @@ node crawl.js "https://help.sap.com/docs/ABAP_PLATFORM_NEW/468a97775123488ab3345
 ```sh
 node crawl.js "https://help.sap.com/docs/ABAP_PLATFORM_NEW/b5670aaaa2364a29935f40b16499972d/adc7d5717257421989b37d4d78f315ec.html?locale=en-US" "/docs/ABAP_PLATFORM_NEW/b5670aaaa2364a29935f40b16499972d/" "links_abap_platform.txt"
 ```
+
+#### ABAP Development
+
+```sh
+node crawl "https://help.sap.com/docs/ABAP_PLATFORM_NEW/7bfe8cdcfbb040dcb6702dada8c3e2f0/4355509bf8a75f6be10000000a1553f6.html?locale=en-US" "/docs/ABAP_PLATFORM_NEW" "links_abap_development.txt"
+```
+
+#### ABAP Test and Analysis Tools
+
+```sh
+node crawl "https://help.sap.com/docs/ABAP_PLATFORM_NEW/ba879a6e2ea04d9bb94c7ccd7cdac446/491aa66f87041903e10000000a42189c.html?locale=en-US" "/docs/ABAP_PLATFORM_NEW" "links_abap_tat.txt"
+```
+
+### eCATT
+
+```sh
+node crawl "https://help.sap.com/docs/ABAP_PLATFORM_NEW/c6663103e6ad47dcb8bb830d85137077/496d2fa0e0221ec6e10000000a42189b.html?locale=en-US" "/docs/ABAP_PLATFORM_NEW" "links_ecatt.txt"
+```
+
+### ABAP Dictionary
+
+```sh
+node crawl "https://help.sap.com/docs/ABAP_PLATFORM_NEW/ec1c9c8191b74de98feb94001a95dd76/cf21ea0b446011d189700000e8322d00.html?locale=en-US" "/docs/ABAP_PLATFORM_NEW" "links_ddic.txt"
+```
+
+### ABAP  Enhancement Framework
+
+```sh
+node crawl "https://help.sap.com/docs/ABAP_PLATFORM_NEW/46a2cfc13d25463b8b9a3d2a3c3ba0d9/949cdc40132a8531e10000000a1550b0.html?locale=en-US" "/docs/ABAP_PLATFORM_NEW" "links_enh.txt"
+```
+
 </details>
 
 ## Step 3 & 4: Retrieve the content of each retrieved url and save as markdown
@@ -293,7 +324,37 @@ node save-page-md.js links/links_rap.txt rap
 ##### SAPUI5 documentation
 
 ```sh
-node save-page-md.js links/links_sapui5.txt rsapui5p
+node save-page-md.js links/links_sapui5.txt sapui5
+```
+
+##### eCATT documentation
+
+```sh
+node save-page-md.js links/links_ecatt.txt ecatt
+```
+
+##### Data Dictionary documentation
+
+```sh
+node save-page-md.js links/links_ddic.txt ddic
+```
+
+##### Enhancement Framework documentation
+
+```sh
+node save-page-md.js links/links_enh.txt enh
+```
+
+##### ABAP Test and Analysis Tools documentation
+
+```sh
+node save-page-md.js links/links_abap_tat.txt abap_tat
+```
+
+##### ABAP Development documentation
+
+```sh
+node save-page-md.js links/links_abap_development.txt abap_development
 ```
 
 </details>
@@ -326,18 +387,36 @@ perl -0777 -pe 's/<!--.*?-->//gs; s/\n{3,}/\n\n/g' *.md > content.md
 perl -0777 -i.bak -pe 's/&lt;!--.*?--&gt;//gs; s/\n{3,}/\n\n/g' *.md
 ```
 
-### Replace in-file, without backup
+<details>
+	<summary>
+	Windows alternative & further commands
+	</summary>
+
+		Clean up command for Windows, PowerShell:
+
+		```sh
+		Get-ChildItem -Recurse -File -Filter *.md |
+  ForEach-Object {
+    (Get-Content -Raw $_.FullName) -replace '<!---->', '' |
+      Set-Content -NoNewline $_.FullName
+  }
+```
+
+### Further command options
+
+#### Replace in-file, without backup
 
 ```sh
 perl -0777 -i -pe 's/&lt;!--.*?--&gt;//gs; s/\n{3,}/\n\n/g' *.md
 ```
 
-### Comments
+#### Comments
 
 ```sh
 perl -0777 -i -pe 's/<!--.*?-->//gs; s/\n{3,}/\n\n/g' *.md
 ```
 
+</details>
 
 ![web page content as clean md](./images/contentasmdclean.png)
 
